@@ -1,2 +1,3 @@
-# tm-man
-Team Member Manager
+# Emma (the employee database management software)
+
+
