@@ -15,13 +15,49 @@ namespace Emma.Api.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<IActionResult> Delete(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            await _employeeRepository.Delete(id);
+            _logger.LogDebug("{Method} was called", nameof(GetAll));
 
-            return Ok();
+            return Ok(await _employeeRepository.GetAll());
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            _logger.LogDebug("{Method} was called", nameof(GetById));
+
+            var employee = await _employeeRepository.GetById(id);
+
+            if (employee.HasValue)
+            {
+                return Ok(employee.Value);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Employee employee)
+        {
+            _logger.LogDebug("{Method} was called", nameof(Create));
+
+            var createdResult = await _employeeRepository.Create(employee);
+
+            if (createdResult.IsSuccess)
+            {
+                var created = createdResult.Value;
+
+                return Created($"employees/{created.Id}", created);
+            }
+
+            _logger.LogError("Unhandled error case for {Method} in {Controller}: {Error}", nameof(Create), nameof(EmployeeController), createdResult);
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Employee employee)
         {
             if (id != employee.Id)
@@ -46,43 +82,12 @@ namespace Emma.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        public async Task<IActionResult> GetAll()
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _logger.LogDebug("{Method} was called", nameof(GetAll));
+            await _employeeRepository.Delete(id);
 
-            return Ok(await _employeeRepository.GetAll());
-        }
-
-        public async Task<IActionResult> GetById(int id)
-        {
-            _logger.LogDebug("{Method} was called", nameof(GetById));
-
-            var employee = await _employeeRepository.GetById(id);
-
-            if (employee.HasValue)
-            {
-                return Ok(employee.Value);
-            }
-
-            return NotFound();
-        }
-
-        public async Task<IActionResult> Create(Employee employee)
-        {
-            _logger.LogDebug("{Method} was called", nameof(Create));
-
-            var createdResult = await _employeeRepository.Create(employee);
-
-            if (createdResult.IsSuccess)
-            {
-                var created = createdResult.Value;
-
-                return Created($"employees/{created.Id}", created);
-            }
-
-            _logger.LogError("Unhandled error case for {Method} in {Controller}: {Error}", nameof(Create), nameof(EmployeeController), createdResult);
-
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return Ok();
         }
     }
 }
