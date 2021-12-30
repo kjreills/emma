@@ -50,17 +50,4 @@ public class Create : BaseEmployeeControllerTest
         Assert.AreEqual(craig.Designation, actual.Designation);
         Assert.AreEqual(craig.Salary, actual.Salary);
     }
-
-    //[TestMethod]
-    //public void ItReturns404NotFoundForMissingEmployee()
-    //{
-    //    // Arrange
-    //    _employeeRepository.Setup(new List<Employee> { _tomHaverford });
-
-    //    // Act
-    //    var result = _employeeController.GetById(404);
-
-    //    // Assert
-    //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-    //}
 }

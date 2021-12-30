@@ -6,6 +6,13 @@ namespace Emma.Api.Controllers
     {
         Task<IEnumerable<Employee>> GetAll();
         Task<Maybe<Employee>> GetById(int id);
-        Task<Result<Employee>> Create(Employee employee);
+        Task<Result<Employee, RepositoryError>> Create(Employee employee);
+        Task<Result<Employee, RepositoryError>> Update(Employee employee);
+        Task Delete(int id);
+    }
+
+    public enum RepositoryError
+    {
+        NotFound,
     }
 }

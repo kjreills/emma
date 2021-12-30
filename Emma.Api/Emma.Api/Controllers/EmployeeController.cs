@@ -15,6 +15,37 @@ namespace Emma.Api.Controllers
             _employeeRepository = employeeRepository;
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _employeeRepository.Delete(id);
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> Update(int id, Employee employee)
+        {
+            if (id != employee.Id)
+            {
+                return BadRequest(new Error("The ID in the route did not match the ID in the employee object"));
+            }
+
+            var updateResult = await _employeeRepository.Update(employee);
+
+            if (updateResult.IsSuccess)
+            {
+                return Ok(updateResult.Value);
+            }
+
+            if (updateResult.Error == RepositoryError.NotFound)
+            {
+                return NotFound();
+            }
+
+            _logger.LogError("Unhandled error case for {Method} in {Controller}: {Error}", nameof(Update), nameof(EmployeeController), updateResult);
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
         public async Task<IActionResult> GetAll()
         {
             _logger.LogDebug("{Method} was called", nameof(GetAll));
@@ -48,6 +79,8 @@ namespace Emma.Api.Controllers
 
                 return Created($"employees/{created.Id}", created);
             }
+
+            _logger.LogError("Unhandled error case for {Method} in {Controller}: {Error}", nameof(Create), nameof(EmployeeController), createdResult);
 
             return StatusCode(StatusCodes.Status500InternalServerError);
         }

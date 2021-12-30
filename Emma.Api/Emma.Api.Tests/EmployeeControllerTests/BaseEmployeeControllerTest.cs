@@ -50,7 +50,7 @@ public class BaseEmployeeControllerTest
             LastName = "Haverford",
             Department = _parksAndRec,
             Designation = _worker,
-            Salary = 40_000m
+            Salary = 40_000
         };
 
         _logger = new Mock<ILogger<EmployeeController>>();

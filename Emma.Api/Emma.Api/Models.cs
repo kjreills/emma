@@ -1,4 +1,4 @@
-namespace Emma.Api
+﻿namespace Emma.Api
 {
     public record Employee
     {
@@ -27,4 +27,6 @@ namespace Emma.Api
 
         public static Department Empty { get; } = new Department();
     }
+
+    public record Error(string Message);
 }

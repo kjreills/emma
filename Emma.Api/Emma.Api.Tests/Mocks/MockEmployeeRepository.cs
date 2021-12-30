@@ -41,9 +41,37 @@ namespace Emma.Api.Tests.Mocks
             return Task.FromResult(Maybe<Employee>.None);
         }
 
-        public Task<Result<Employee>> Create(Employee employee)
+        public Task<Result<Employee, RepositoryError>> Create(Employee employee)
         {
-            throw new NotImplementedException();
+            var nextKey = Employees.Any() ? Employees.Keys.Max() + 1 : 1;
+
+            var create = employee with { Id = nextKey };
+
+            Employees.Add(nextKey, create);
+
+            return Task.FromResult(Result.Success<Employee, RepositoryError>(create));
+        }
+
+        public Task<Result<Employee, RepositoryError>> Update(Employee employee)
+        {
+            if (Employees.ContainsKey(employee.Id))
+            {
+                Employees[employee.Id] = employee;
+
+                return Task.FromResult(Result.Success<Employee, RepositoryError>(employee));
+            }
+
+            return Task.FromResult(Result.Failure<Employee, RepositoryError>(RepositoryError.NotFound));
+        }
+
+        public Task Delete(int id)
+        {
+            if (Employees.ContainsKey(id))
+            {
+                Employees.Remove(id);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
