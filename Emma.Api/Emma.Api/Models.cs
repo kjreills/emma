@@ -1,26 +1,30 @@
-namespace Summit.Api
+namespace Emma.Api
 {
-    public class Employee
+    public record Employee
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public DateOnly BirthDate { get; set; }
-        public DateOnly HireDate { get; set; }
-        public decimal Salary { get; set; }
-        public string Designation { get; set; } = string.Empty;
-        public string Department { get; set; } = string.Empty;
+        public int Id { get; init; }
+        public string FirstName { get; init; } = string.Empty;
+        public string LastName { get; init; } = string.Empty;
+        public DateOnly BirthDate { get; init; }
+        public DateOnly HireDate { get; init; }
+        public decimal Salary { get; init; }
+        public Designation Designation { get; init; } = Designation.Empty;
+        public Department Department { get; init; } = Department.Empty;
     }
 
-    public class Designation
+    public record Designation
     {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
+        public int Id { get; init; }
+        public string Title { get; init; } = string.Empty;
+
+        public static Designation Empty { get; } = new Designation();
     }
 
-    public class Department
+    public record Department
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public int Id { get; init; }
+        public string Name { get; init; } = string.Empty;
+
+        public static Department Empty { get; } = new Department();
     }
 }
