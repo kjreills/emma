@@ -21,19 +21,29 @@ namespace Emma.Api.Tests.Mocks
             Employees = employees.ToDictionary(x => x.Id);
         }
 
-        public IEnumerable<Employee> GetAll()
+        public void Clear()
         {
-            return Employees.Values;
+            Employees.Clear();
         }
 
-        public Maybe<Employee> GetById(int id)
+        public Task<IEnumerable<Employee>> GetAll()
+        {
+            return Task.FromResult(Employees.Values.AsEnumerable());
+        }
+
+        public Task<Maybe<Employee>> GetById(int id)
         {
             if (Employees.ContainsKey(id))
             {
-                return Maybe.From(Employees[id]);
+                return Task.FromResult(Maybe.From(Employees[id]));
             }
 
-            return Maybe.None;
+            return Task.FromResult(Maybe<Employee>.None);
+        }
+
+        public Task<Result<Employee>> Create(Employee employee)
+        {
+            throw new NotImplementedException();
         }
     }
 }

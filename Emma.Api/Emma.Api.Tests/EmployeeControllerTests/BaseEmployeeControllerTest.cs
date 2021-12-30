@@ -24,6 +24,18 @@ public class BaseEmployeeControllerTest
         Id = 2
     };
 
+    protected readonly Designation _worker = new()
+    {
+        Id = 1,
+        Title = "Worker"
+    };
+
+    protected readonly Designation _supervisor = new()
+    {
+        Id = 2,
+        Title = "Supervisor"
+    };
+
     protected Employee _tomHaverford = new();
 
     [TestInitialize]
@@ -36,9 +48,10 @@ public class BaseEmployeeControllerTest
             HireDate = DateOnly.FromDayNumber(710000),
             FirstName = "Tom",
             LastName = "Haverford",
-            Department = _parksAndRec
+            Department = _parksAndRec,
+            Designation = _worker,
+            Salary = 40_000m
         };
-
 
         _logger = new Mock<ILogger<EmployeeController>>();
 

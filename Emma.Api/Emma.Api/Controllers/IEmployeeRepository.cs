@@ -4,7 +4,8 @@ namespace Emma.Api.Controllers
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<Employee> GetAll();
-        Maybe<Employee> GetById(int id);
+        Task<IEnumerable<Employee>> GetAll();
+        Task<Maybe<Employee>> GetById(int id);
+        Task<Result<Employee>> Create(Employee employee);
     }
 }

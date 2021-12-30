@@ -7,7 +7,7 @@ namespace Emma.Api.Tests.EmployeeControllerTests;
 public class GetById : BaseEmployeeControllerTest
 {
     [TestMethod]
-    public async void ItExists()
+    public async Task ItExists()
     {
         // Act
         var result = await _employeeController.GetById(1);
@@ -18,7 +18,7 @@ public class GetById : BaseEmployeeControllerTest
     }
 
     [TestMethod]
-    public async void ItReturnsTheCorrectEmployee()
+    public async Task ItReturnsTheCorrectEmployee()
     {
         // Arrange
         _employeeRepository.Setup(new List<Employee> { _tomHaverford });
@@ -33,7 +33,7 @@ public class GetById : BaseEmployeeControllerTest
     }
 
     [TestMethod]
-    public async void ItReturns404NotFoundForMissingEmployee()
+    public async Task ItReturns404NotFoundForMissingEmployee()
     {
         // Arrange
         _employeeRepository.Setup(new List<Employee> { _tomHaverford });

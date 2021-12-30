@@ -7,7 +7,7 @@ namespace Emma.Api.Tests.EmployeeControllerTests;
 public class Create : BaseEmployeeControllerTest
 {
     [TestMethod]
-    public async void ItExists()
+    public async Task ItExists()
     {
         // Act
         var result = await _employeeController.Create(new Employee());
@@ -17,20 +17,39 @@ public class Create : BaseEmployeeControllerTest
         Assert.IsNotNull(okResult, $"Expected CreatedResult, got { result.GetType().Name }");
     }
 
-    //[TestMethod]
-    //public void ItReturnsTheCorrectEmployee()
-    //{
-    //    // Arrange
-    //    _employeeRepository.Setup(new List<Employee> { _tomHaverford });
+    [TestMethod]
+    public async Task ItCallsCreate()
+    {
+        // Arrange
+        _employeeRepository.Clear();
 
-    //    // Act
-    //    var result = _employeeController.GetById(_tomHaverford.Id) as OkObjectResult;
-    //    var actual = result?.Value as Employee;
+        var craig = new Employee
+        {
+            FirstName = "Craig",
+            LastName = "Middlebrooks",
+            BirthDate = DateOnly.FromDayNumber(720000),
+            HireDate = DateOnly.FromDayNumber(725000),
+            Department = _parksAndRec,
+            Designation = _worker,
+            Salary = 30_000m
+        };
 
-    //    // Assert
-    //    Assert.IsNotNull(actual);
-    //    Assert.AreEqual(_tomHaverford, actual);
-    //}
+        // Act
+        var result = await _employeeController.Create(craig) as CreatedResult;
+        var actual = result?.Value as Employee;
+
+        // Assert
+        Assert.IsNotNull(actual);
+        Assert.AreEqual($"employees/{actual.Id}", result?.Location);
+        Assert.AreNotEqual(craig.Id, actual.Id);
+        Assert.AreEqual(craig.FirstName, actual.FirstName);
+        Assert.AreEqual(craig.LastName, actual.LastName);
+        Assert.AreEqual(craig.BirthDate, actual.BirthDate);
+        Assert.AreEqual(craig.HireDate, actual.HireDate);
+        Assert.AreEqual(craig.Department, actual.Department);
+        Assert.AreEqual(craig.Designation, actual.Designation);
+        Assert.AreEqual(craig.Salary, actual.Salary);
+    }
 
     //[TestMethod]
     //public void ItReturns404NotFoundForMissingEmployee()

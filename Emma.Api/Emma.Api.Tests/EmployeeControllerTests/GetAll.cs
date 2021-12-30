@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Emma.Api.Tests.EmployeeControllerTests;
@@ -7,7 +7,7 @@ namespace Emma.Api.Tests.EmployeeControllerTests;
 public class GetAll : BaseEmployeeControllerTest
 {
     [TestMethod]
-    public async void ItExists()
+    public async Task ItExists()
     {
         // Act
         var result = await _employeeController.GetAll();
@@ -19,7 +19,7 @@ public class GetAll : BaseEmployeeControllerTest
     }
 
     [TestMethod]
-    public async void ItReturnsEmployeesFromTheRepository()
+    public async Task ItReturnsEmployeesFromTheRepository()
     {
         // Arrange
         var expected = new List<Employee>

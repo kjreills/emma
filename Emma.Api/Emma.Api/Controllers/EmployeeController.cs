@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Emma.Api.Controllers
 {
@@ -19,14 +19,14 @@ namespace Emma.Api.Controllers
         {
             _logger.LogDebug("{Method} was called", nameof(GetAll));
 
-            return Ok(_employeeRepository.GetAll());
+            return Ok(await _employeeRepository.GetAll());
         }
 
         public async Task<IActionResult> GetById(int id)
         {
             _logger.LogDebug("{Method} was called", nameof(GetById));
 
-            var employee = _employeeRepository.GetById(id);
+            var employee = await _employeeRepository.GetById(id);
 
             if (employee.HasValue)
             {
@@ -40,7 +40,16 @@ namespace Emma.Api.Controllers
         {
             _logger.LogDebug("{Method} was called", nameof(Create));
 
-            return Ok();
+            var createdResult = await _employeeRepository.Create(employee);
+
+            if (createdResult.IsSuccess)
+            {
+                var created = createdResult.Value;
+
+                return Created($"employees/{created.Id}", created);
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }
