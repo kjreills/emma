@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Emma.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]s")]
     public class DesignationController : ControllerBase
