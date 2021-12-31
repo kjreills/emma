@@ -44,8 +44,8 @@ public class BaseEmployeeControllerTest
         _tomHaverford = new Employee
         {
             Id = 1,
-            BirthDate = DateOnly.FromDayNumber(700000),
-            HireDate = DateOnly.FromDayNumber(710000),
+            BirthDate = new DateTime(1985, 6, 20),
+            HireDate = new DateTime(2004, 4, 1),
             FirstName = "Tom",
             LastName = "Haverford",
             Department = _parksAndRec,

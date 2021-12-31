@@ -27,8 +27,8 @@ public class Create : BaseEmployeeControllerTest
         {
             FirstName = "Craig",
             LastName = "Middlebrooks",
-            BirthDate = DateOnly.FromDayNumber(720000),
-            HireDate = DateOnly.FromDayNumber(725000),
+            BirthDate = new DateTime(1985, 6, 20),
+            HireDate = new DateTime(2004, 4, 1),
             Department = _parksAndRec,
             Designation = _worker,
             Salary = 30_000m

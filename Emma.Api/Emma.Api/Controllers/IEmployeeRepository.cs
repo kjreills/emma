@@ -8,11 +8,12 @@ namespace Emma.Api.Controllers
         Task<Maybe<Employee>> GetById(int id);
         Task<Result<Employee, RepositoryError>> Create(Employee employee);
         Task<Result<Employee, RepositoryError>> Update(Employee employee);
-        Task Delete(int id);
+        Task<Result<int, RepositoryError>> Delete(int id);
     }
 
     public enum RepositoryError
     {
         NotFound,
+        ConfigurationError
     }
 }

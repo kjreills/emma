@@ -85,9 +85,16 @@ namespace Emma.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _employeeRepository.Delete(id);
+            var result = await _employeeRepository.Delete(id);
 
-            return Ok();
+            if (result.IsSuccess)
+            {
+                return Ok();
+            }
+
+            _logger.LogError("Unhandled error case for {Method} in {Controller}: {Error}", nameof(Delete), nameof(EmployeeController), result);
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

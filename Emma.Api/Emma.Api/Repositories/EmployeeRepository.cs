@@ -6,39 +6,77 @@ namespace Emma.Api.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        public EmployeeRepository()
-        {
+        private readonly EmployeeContext _employeeContext;
 
+        public EmployeeRepository(EmployeeContext employeeContext)
+        {
+            _employeeContext = employeeContext;
         }
 
-        public Task<Result<Employee, RepositoryError>> Create(Employee employee)
+        public async Task<Result<Employee, RepositoryError>> Create(Employee employee)
         {
-            throw new NotImplementedException();
+            if (_employeeContext.Employee == null
+                || _employeeContext.Department == null
+                || _employeeContext.Designation == null)
+            {
+                return Result.Failure<Employee, RepositoryError>(RepositoryError.ConfigurationError);
+            }
+
+            var created = _employeeContext.Employee.Update(employee with { Id = 0 });
+            await _employeeContext.SaveChangesAsync();
+
+            return Result.Success<Employee, RepositoryError>(created.Entity);
         }
 
-        public Task Delete(int id)
+        public async Task<Result<int,RepositoryError>> Delete(int id)
         {
-            throw new NotImplementedException();
+            if (_employeeContext.Employee == null)
+            {
+                return Result.Failure<int, RepositoryError>(RepositoryError.ConfigurationError);
+            }
+
+            var employee = await GetById(id);
+
+            if (employee.HasValue)
+            {
+                _employeeContext.Employee.Remove(employee.Value);
+                await _employeeContext.SaveChangesAsync();
+            }
+
+            return Result.Success<int, RepositoryError>(id);
         }
 
-        public Task<IEnumerable<Employee>> GetAll()
+        public async Task<IEnumerable<Employee>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _employeeContext.Employee!
+                .AsNoTracking()
+                .Include(x => x.Department)
+                .Include(x => x.Designation)
+                .ToListAsync();
         }
 
-        public Task<Maybe<Employee>> GetById(int id)
+        public async Task<Maybe<Employee>> GetById(int id)
         {
-            throw new NotImplementedException();
+            var employee = await _employeeContext.Employee!
+                .Include(x => x.Department)
+                .Include(x => x.Designation)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return employee != null ? Maybe.From(employee) : Maybe.None;
         }
 
-        public Task<Result<Employee, RepositoryError>> Update(Employee employee)
+        public async Task<Result<Employee, RepositoryError>> Update(Employee employee)
         {
-            throw new NotImplementedException();
+            var result = _employeeContext.Employee!.Update(employee);
+
+            await _employeeContext.SaveChangesAsync();
+
+            if (result != null)
+            {
+                return Result.Success<Employee, RepositoryError>(result.Entity);
+            }
+
+            return Result.Failure<Employee, RepositoryError>(RepositoryError.ConfigurationError);
         }
-    }
-
-    public class EmployeeContext : DbContext
-    {
-
     }
 }

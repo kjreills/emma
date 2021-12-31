@@ -64,14 +64,14 @@ namespace Emma.Api.Tests.Mocks
             return Task.FromResult(Result.Failure<Employee, RepositoryError>(RepositoryError.NotFound));
         }
 
-        public Task Delete(int id)
+        public Task<Result<int,RepositoryError>> Delete(int id)
         {
             if (Employees.ContainsKey(id))
             {
                 Employees.Remove(id);
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(Result.Success<int,RepositoryError>(id));
         }
     }
 }
