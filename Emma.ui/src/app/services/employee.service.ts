@@ -5,7 +5,12 @@ import { environment } from "src/environments/environment";
 
 @Injectable()
 export class EmployeeService {
+    
     constructor(private http: HttpClient) { }
+
+    public getById(id: number) {
+        return this.http.get<Employee>(`${environment.apiUrl}/employees/${id}`);
+    }
 
     public getAll(): Observable<Employee[]> {
         return this.http.get<Employee[]>(`${environment.apiUrl}/employees`);
@@ -20,7 +25,15 @@ export class EmployeeService {
     }
 
     public create(employee: Employee): Observable<Employee> {
-        return this.http.post<Employee>(`${environment.apiUrl}/employees`, employee)
+        return this.http.post<Employee>(`${environment.apiUrl}/employees`, employee);
+    }
+
+    public update(employee: Employee): Observable<Employee> {
+        return this.http.put<Employee>(`${environment.apiUrl}/employees/${employee.id}`, employee);
+    }
+
+    public delete(id: number) {
+        return this.http.delete(`${environment.apiUrl}/employees/${id}`);
     }
 }
 

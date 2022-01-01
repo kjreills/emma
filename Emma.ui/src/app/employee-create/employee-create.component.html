@@ -33,7 +33,7 @@
         <mat-form-field>
             <mat-label>Department</mat-label>
             <mat-select [(ngModel)]="departmentId">
-                <mat-option *ngFor="let dept of departments" value="{{dept.id}}">{{dept.name}}</mat-option>
+                <mat-option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</mat-option>
             </mat-select>
         </mat-form-field>
     </p>
@@ -41,7 +41,7 @@
         <mat-form-field>
             <mat-label>Designation</mat-label>
             <mat-select [(ngModel)]="designationId">
-                <mat-option *ngFor="let title of designations" value="{{title.id}}">{{title.title}}</mat-option>
+                <mat-option *ngFor="let title of designations" [value]="title.id">{{title.title}}</mat-option>
             </mat-select>
         </mat-form-field>
     </p>
@@ -55,21 +55,3 @@
         <button mat-raised-button color="primary" (click)="submit()">Submit</button>
     </p>
 </div>
-
-<!-- 
-<mat-form-field appearance="fill">
-    <mat-label>Input</mat-label>
-    <input matInput>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Select</mat-label>
-    <mat-select>
-      <mat-option value="one">First option</mat-option>
-      <mat-option value="two">Second option</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Textarea</mat-label>
-    <textarea matInput></textarea>
-  </mat-form-field>
-   -->
