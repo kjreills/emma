@@ -19,6 +19,13 @@ builder.Services.AddAuthentication(options =>
     options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
 });
 
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(policy => 
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader())
+);
+
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDesignationRepository, DesignationRepository>();
@@ -39,6 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 

@@ -1,0 +1,51 @@
+<div>
+    <h1>Employees</h1>
+    <a mat-raised-button color="accent" routerLink="/new">Add Employee</a>
+</div>
+
+
+<table mat-table [dataSource]="employees">
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Employee Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Department </th>
+        <td mat-cell *matCellDef="let element"> {{element.department.name}} </td>
+    </ng-container>
+    
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.designation.title}} </td>
+    </ng-container>
+
+    <!-- Salary Column -->
+    <ng-container matColumnDef="salary">
+        <th mat-header-cell *matHeaderCellDef> Salary </th>
+        <td mat-cell *matCellDef="let element"> {{element.salary | currency }} </td>
+    </ng-container>
+
+    <!-- Birth Date Column -->
+    <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef> Birth Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.birthDate | date : 'mediumDate' }} </td>
+    </ng-container>
+
+    <!-- Hire Date Column -->
+    <ng-container matColumnDef="hireDate">
+        <th mat-header-cell *matHeaderCellDef> Hire Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.hireDate | date : 'mediumDate'}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

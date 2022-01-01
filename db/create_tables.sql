@@ -20,6 +20,6 @@ CREATE TABLE employee (
     birth_date date,
     hire_date date,
     salary money,
-    designation_id integer REFERENCES department(id),
-    department_id integer REFERENCES designation(id)
+    designation_id integer REFERENCES designation(id),
+    department_id integer REFERENCES department(id)
 );
