@@ -20,6 +20,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { environment as env } from '../environments/environment';
 import { EmployeeService } from './services/employee.service';
 import { EmployeeCreateComponent } from './employee-create/employee-create.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { EmployeeCreateComponent } from './employee-create/employee-create.compo
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatSortModule
   ],
   providers: [
     {
